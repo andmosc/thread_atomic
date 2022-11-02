@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,24 +17,21 @@ public class Main {
         }
 
 
-        Thread th1 = new Thread(()-> {
-            for (String text : texts) {
-                if (text.length() == 3) {
-                    if (istPalindrome(text))
-                        l3.addAndGet(1);
-                    if (repeatingСharacters(text))
-                        l3.addAndGet(1);
-                    if (ascendingCharacters(text))
-                        l3.addAndGet(1);
-                }
-            }
-        });
+        Thread th1 = new Thread(()-> Arrays.stream(texts).filter(s->s.length() == 3).
+                forEach(s-> {
+                if (istPalindrome(s))
+                    l3.addAndGet(1);
+                if (repeatingCharacters(s))
+                    l3.addAndGet(1);
+                if (ascendingCharacters(s))
+                    l3.addAndGet(1);
+            }));
         Thread th2 = new Thread(()-> {
             for (String text : texts) {
                 if (text.length() == 4) {
                     if (istPalindrome(text))
                         l4.addAndGet(1);
-                    if (repeatingСharacters(text))
+                    if (repeatingCharacters(text))
                         l4.addAndGet(1);
                     if (ascendingCharacters(text))
                         l4.addAndGet(1);
@@ -45,7 +43,7 @@ public class Main {
                 if (text.length() == 5) {
                     if (istPalindrome(text))
                         l5.addAndGet(1);
-                    if (repeatingСharacters(text))
+                    if (repeatingCharacters(text))
                         l5.addAndGet(1);
                     if (ascendingCharacters(text))
                         l5.addAndGet(1);
@@ -70,7 +68,7 @@ public class Main {
         return s.equals(reverse);
     }
 
-    private static boolean repeatingСharacters(String s) {
+    private static boolean repeatingCharacters(String s) {
         for (int i = 1; i < s.length(); i++) {
             if (s.charAt(0) != s.charAt(i)) return false;
         }
